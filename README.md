@@ -16,7 +16,21 @@ Normalized Cross-Correlation mengukur kemiripan antara template dan sub-image ka
 $$NCC(i,j) = \frac{1}{N \cdot M} \sum_{m,n} \frac{(I(i+m,j+n) - \bar{I}_{i,j}) \cdot (T(m,n) - \bar{T})}{\sigma_{I_{i,j}} \cdot \sigma_T}$$
 
 ### 2. Optical Flow Lucas-Kanade
-Algoritma LK mengasumsikan *brightness constancy* dan *local motion*. Keypoint dideteksi dengan Shi-Tomasi, lalu flow dihitung per titik dan diagregasi dengan median untuk estimasi perpindahan bbox.
+Lucas-Kanade mengasumsikan brightness constancy dan local motion:
+
+$$I_x u + I_y v + I_t = 0$$
+
+Untuk $n$ piksel dalam window $W$, susun sistem persamaan:
+
+$$\mathbf{A} \mathbf{d} = \mathbf{b}$$
+
+dengan $\mathbf{A} = [I_x, I_y]^T$, $\mathbf{b} = -I_t$
+
+Solusi least-squares:
+
+$$\begin{bmatrix} u \\ v \end{bmatrix} = (\mathbf{A}^T \mathbf{A})^{-1} \mathbf{A}^T \mathbf{b}$$
+
+Syarat: $\mathbf{A}^T \mathbf{A}$ harus invertible (tekstur cukup, bukan flat region).
 
 ---
 
@@ -54,14 +68,14 @@ Anotasi ground truth dalam format `x, y, w, h` per frame.
 | Center Error | **1.63 px** | 19.70 px |
 | RMSE | **2.27 px** | 21.44 px |
 | Max Error | **6.04 px** | 33.24 px |
-| Drift | +0.063 px/frame ✓ | +0.445 px/frame |
+| Drift | +0.063 px/frame | +0.445 px/frame |
 | Kecepatan | ~15 FPS | **~667 FPS** |
 
 ### Kesimpulan
 
-- **Optical Flow LK unggul di Bolt** karena displacement antar frame besar — template matching gagal menemukan kembali objek setelah bergerak jauh dari search radius.
+- **Optical Flow LK unggul di Bolt** karena displacement antar frame besar, sedangkan template matching gagal menemukan kembali objek setelah bergerak jauh dari search radius.
 - **Template Matching unggul di Girl** karena gerakan halus dan background statis memudahkan pencocokan template; LK justru drift karena keypoint menyebar ke background.
-- **LK selalu lebih cepat** — dua hingga tiga orde magnitudo dibanding NCC, karena NCC perlu menggeser sliding window di seluruh search region.
+- **LK selalu lebih cepat** dua hingga tiga orde magnitudo dibanding NCC, karena NCC perlu menggeser sliding window di seluruh search region.
 
 ---
 
