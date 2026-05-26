@@ -128,6 +128,6 @@ Versi yang digunakan: OpenCV 4.13.0, NumPy 2.0.2
 
 ## Referensi
 
-- Wu, Y., Lim, J., & Yang, M. H. (2013). Online object tracking: A benchmark. *CVPR 2013*. ([OTB2015](http://cvlab.hanyang.ac.kr/tracker_benchmark/))
+- Wu, Y., Lim, J., & Yang, M. H. (2013). Online object tracking: A benchmark. *CVPR 2013*. 
 - Lucas, B. D., & Kanade, T. (1981). An iterative image registration technique with an application to stereo vision. *IJCAI*.
 - Shi, J., & Tomasi, C. (1994). Good features to track. *CVPR 1994*.
